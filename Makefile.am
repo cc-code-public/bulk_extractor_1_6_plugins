@@ -48,7 +48,6 @@ scan_domains.dll: scan_domains.flex
 
 scan_hwallets.so: scan_hwallets.flex
 scan_hwallets.dll: scan_hwallets.flex
-scan_domains.dll: scan_domains.flex
 
 scan_torurls.so: scan_torurls.flex
 scan_torurls.dll: scan_torurls.flex
