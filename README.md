@@ -2,6 +2,38 @@
 Digital currency plugins for bulk_extractor version 1.6.0  
 Predecessors have not been tested!
 
+Included:
+-------------------------------------------------
+All plugins are designed to be used offline. All verification processes are implemented in the plugins themselves.
+
+* bitcoin:
+  * P2PKH and P2SH verified by sha256 checksum 
+  * P2WPKH verified by bech32 checksum
+ 
+* monero:
+  * Standard-Address
+  * Subaddress
+  * Integrated-Address
+all verified by Keccak-f[1600] (FIPS202_SHA3_256()) checksums
+
+* mnemonic:
+  * BIP-0039
+  * Electrum Wallets (> version 2.0)
+only englisch dictionaries and verified by HMAC-SHA-512
+
+* hardware wallets:
+  * supported hardware wallets: Trezor, Trezor v2, Ledger HW.1 / Nano, 'Ledger Blue /  Nano S / Aramis / HW.2 / Nano X, coinkite, digitalbox / bitbox, safe-t, keepkey
+  * Windows Registry format "VID_XXXX&PID_XXXX"
+  * Linux log format "XXXX:XXXX"
+
+* domains:
+  * Search against a SECONDLEVEL.TOPLEVEL domain list (domains_list.csv)
+The file has to be located in the current execution path
+ 
+* tor addresses:
+  * v2 no verification possible
+  * v3 verified by sha3-256 checksum
+ 
 
 Installation for Ubuntu 18 LTS - Ubuntu 20 LTS:
 -------------------------------------------------
