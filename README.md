@@ -55,7 +55,7 @@ cd ~/Development
 git clone https://github.com/cc-code-public/bulk_extractor_plugins.git  
 cd bulk_extractor_plugins  
 cp -R extern ~/Development/bulk_extractor/plugins  
-cp Makefile.am scan_bitcoin.flex scan_domains.flex scan_hwallets.flex scan_mnemonics.flex scan_monero.flex ~/Development/bulk_extractor/plugins  
+cp Makefile.am scan_bitcoin.flex scan_domains.flex scan_hwallets.flex scan_mnemonics.flex scan_monero.flex scan_torurls.flex ~/Development/bulk_extractor/plugins  
 
 cd ~/Development/bulk_extractor/  
 bash bootstrap.sh  
