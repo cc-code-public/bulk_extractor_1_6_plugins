@@ -8,6 +8,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <stdio.h>
+#include <vector>
 
 /* Include the flex scanner */
 #include "sbuf_flex_scanner.h"
@@ -23,12 +24,37 @@ public:
         sbuf_scanner(&sp.sbuf),
         domains_recorder(sp.fs.get_name("domains")),
         alert_recorder(sp.fs.get_alert_recorder()){
+            
             // count the number of lines in the file called filename
-            FILE *stream = fopen("domains_list.csv","r");
+            FILE *stream = NULL;
             char *saveptr = NULL;
+
+            /* Check for domains_list.csv in plugin directories used in bulk_extractor main.cpp */
+            std::vector<std::string> dirs;
+            dirs.push_back(".");
+            dirs.push_back("/usr/local/lib/bulk_extractor");
+            dirs.push_back("/usr/lib/bulk_extractor");
+
+            if (getenv("BE_PATH")) {
+                std::vector<std::string> be_dirs = split(getenv("BE_PATH"),':');
+                dirs.insert(dirs.begin()+3, be_dirs.begin(), be_dirs.end());
+            }
+            
+            for(std::vector<std::string>::const_iterator it = dirs.begin(); it!=dirs.end(); it++){
+                if (access((*it+"/domains_list.csv").c_str(),O_RDONLY) == 0){
+                    stream = fopen((*it+"/domains_list.csv").c_str(),"r");
+                    if (stream != NULL) {
+                        fprintf(stderr,"Thread using domains file %s\n",(*it+"/domains_list.csv").c_str());
+                        break;
+                    }
+                }
+            }
+            /* END */
             
             if (stream == NULL) {
-                printf("\nDatei %s nicht gefunden!\n", "domains_list.csv");
+                for(std::vector<std::string>::const_iterator it = dirs.begin(); it!=dirs.end(); it++){
+                    fprintf(stderr,"File domains_list.csv not found in %s\n",(*it).c_str());
+                }
                 exit(EXIT_FAILURE);
             }
                 
@@ -123,6 +149,18 @@ public:
             delete []str2;
             return cmp_return;
         }
+
+        
+        std::vector<std::string> split(const std::string& s, char delimiter) {
+           std::vector<std::string> tokens;
+           std::string token;
+           std::istringstream tokenStream(s);
+           while (std::getline(tokenStream, token, delimiter))
+           {
+              tokens.push_back(token);
+           }
+           return tokens;
+        }
         
         ~domains_scanner() {
             delete []domain_array;
@@ -140,7 +178,6 @@ inline class domains_scanner *get_extra(yyscan_t yyscanner) {
     YY_EXTRA_TYPE yydomains_get_extra (yyscan_t yyscanner ); 
     return yydomains_get_extra(yyscanner);
 }
-
 
 int my_strcmp(char *strg1, char *strg2)
 {
@@ -242,7 +279,8 @@ void scan_domains(const class scanner_params &sp,const recursion_control_block &
         sp.info->name           = "domains";
         sp.info->author         = "Christian C., https://github.com/cc-code-public";
         sp.info->description    = "Scans for domains";
-        sp.info->scanner_version= "0.3";
+        sp.info->scanner_version= "0.36";
+        sp.info->flags = scanner_info::SCANNER_DISABLED;
         
         /* Define the feature files this scanner created */
         sp.info->feature_names.insert(FEATURE_NAME);
