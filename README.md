@@ -1,6 +1,8 @@
-# bulk_extractor_plugins
+# bulk_extractor_1_6_plugins
 Digital currency plugins for bulk_extractor version 1.6.0  
 Predecessors have not been tested!
+
+If you are looking for the 2.0 versions: https://github.com/cc-code-public/bulk_extractor_2_0_plugins
 
 Included:
 -------------------------------------------------
