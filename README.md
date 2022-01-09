@@ -54,7 +54,7 @@ mv plugins/Makefile.am plugins/Makefile.am.bak
 
 
 cd ~/Development  
-git clone https://github.com/cc-code-public/bulk_extractor_plugins.git  
+git clone https://github.com/cc-code-public/bulk_extractor_1_6_plugins.git  
 cd bulk_extractor_1_6_plugins  
 cp -R extern ~/Development/bulk_extractor/plugins  
 cp Makefile.am scan_bitcoin.flex scan_domains.flex scan_hwallets.flex scan_mnemonics.flex scan_monero.flex scan_torurls.flex ~/Development/bulk_extractor/plugins  
